@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>大阪・京都・奈良行程</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f4f0;min-height:100vh}
+.header{background:#fff;padding:1rem 1rem .8rem;border-bottom:1px solid #eee;position:sticky;top:0;z-index:10}
+.header h1{font-size:17px;font-weight:700;color:#1a1a1a}
+.header p{font-size:11px;color:#999;margin-top:3px}
+.chips{display:flex;gap:6px;padding:.6rem 1rem;overflow-x:auto;scrollbar-width:none;background:#fff;border-bottom:1px solid #eee}
+.chips::-webkit-scrollbar{display:none}
+.chip{font-size:11px;padding:3px 9px;border-radius:20px;background:#f0f0ec;color:#555;white-space:nowrap;flex-shrink:0}
+.list{padding:.75rem}
+.card{background:#fff;border-radius:14px;margin-bottom:.75rem;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.hdr{display:flex;align-items:center;gap:11px;padding:.85rem 1rem;cursor:pointer;min-height:64px}
+.bdg{width:42px;height:42px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;line-height:1.4;text-align:center}
+.dt{flex:1;min-width:0}
+.dt h3{font-size:14px;font-weight:600;color:#1a1a1a;line-height:1.3}
+.dt p{font-size:11px;color:#999;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chv{color:#ccc;font-size:12px;transition:transform .25s;flex-shrink:0}
+.chv.open{transform:rotate(180deg)}
+.body{display:none;padding:0 .85rem 1rem;border-top:1px solid #f0f0ec}
+.body.open{display:block}
+.sec{margin-top:.85rem}
+.lbl{font-size:10px;font-weight:700;letter-spacing:.07em;color:#bbb;text-transform:uppercase;margin-bottom:8px}
+.tl{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:0}
+.tl-left{width:50px;flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+.tl-time{font-size:11px;color:#aaa;font-variant-numeric:tabular-nums;text-align:center;line-height:1.3;padding-top:3px}
+.tl-vline{flex:1;width:1.5px;background:#eee;margin-top:3px}
+.tl-dot-col{width:14px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding-top:6px}
+.tl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.tl-content{flex:1;padding:.05rem 0 0 8px}
+.place-block{background:#fafaf8;border-radius:10px;padding:.6rem .75rem;margin-bottom:0}
+.place-name{font-size:13px;font-weight:600;color:#1a1a1a;line-height:1.4}
+.place-tags{margin-top:3px}
+.place-note{font-size:11.5px;color:#888;margin-top:4px;line-height:1.45}
+.place-meta{display:flex;gap:10px;margin-top:6px;flex-wrap:wrap}
+.meta-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#666}
+.meta-depart{margin-top:6px;font-size:11px;color:#888;border-top:1px dashed #eee;padding-top:5px}
+.meta-depart strong{color:#444}
+.tag{display:inline-block;font-size:10px;padding:1px 5px;border-radius:3px;margin-right:3px;font-weight:500}
+.tf{background:#E1F5EE;color:#0F6E56}
+.tp{background:#EEEDFE;color:#3C3489}
+.ts{background:#FAEEDA;color:#633806}
+.tx2{background:#F1EFE8;color:#5F5E5A}
+.tn{background:#EAF3DE;color:#3B6D11}
+.sep{height:1px;background:#f0f0ec;margin:10px 0}
+.cl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.cl-count{font-size:10px;color:#bbb;font-weight:400;letter-spacing:0}
+.pbar{height:3px;background:#eee;border-radius:2px;overflow:hidden;margin-bottom:8px}
+.pfill{height:100%;border-radius:2px;transition:width .3s}
+.cl{display:flex;flex-direction:column}
+.ci{display:flex;align-items:flex-start;gap:10px;padding:.55rem .3rem;font-size:13px;color:#1a1a1a;line-height:1.5;cursor:pointer;border-radius:8px}
+.ci.done span{color:#ccc;text-decoration:line-through}
+.ci input[type=checkbox]{width:18px;height:18px;margin-top:1px;flex-shrink:0;accent-color:#534AB7}
+.warn{background:#FFF3E0;border-radius:10px;padding:.65rem .85rem;font-size:12px;color:#7a4000;margin-top:9px;line-height:1.6;border-left:3px solid #F4A435}
+.tip{background:#f8f8f5;border-radius:10px;padding:.65rem .85rem;font-size:12px;color:#777;margin-top:9px;line-height:1.6}
+.tip strong{color:#333;font-weight:600}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>大阪・京都・奈良 7 天</h1>
+  <p>10/9（四）－ 10/15（四）&nbsp;·&nbsp;2 人&nbsp;·&nbsp;全程住大阪谷町庭 星</p>
+</div>
+<div class="chips">
+  <span class="chip">大阪 3天</span>
+  <span class="chip">奈良 1天（當日來回）</span>
+  <span class="chip">京都 2天（當日來回）</span>
+  <span class="chip">去程 KIX</span>
+  <span class="chip">回程 UKB · JX835 11:00</span>
+</div>
+<div class="list" id="root"></div>
+<script>
+var TL={food:"美食",temple:"寺廟",shop:"購物",transport:"交通",nature:"自然"};
+var TC={food:"tf",temple:"tp",shop:"ts",transport:"tx2",nature:"tn"};
+function mkTags(a){return(a||[]).map(function(t){return'<span class="tag '+TC[t]+'">'+TL[t]+'</span>';}).join("");}
+function toggle(id){document.getElementById("b"+id).classList.toggle("open");document.getElementById("c"+id).classList.toggle("open");}
+function ck(id,i){
+  document.getElementById("ci"+id+"-"+i).classList.toggle("done");
+  var d=DM[id],done=0;
+  for(var k=0;k<d.cl.length;k++)if(document.getElementById("ci"+id+"-"+k).classList.contains("done"))done++;
+  document.getElementById("pf"+id).style.width=Math.round(done/d.cl.length*100)+"%";
+  document.getElementById("pc"+id).textContent=done+"/"+d.cl.length;
+}
+
+var days=[
+/* ══ DAY 1 ══ */
+{id:"d1",bc:"background:#EEEDFE;color:#3C3489",dc:"#534AB7",
+ date:"10/9",lbl:"四",city:"大阪",title:"抵達大阪・當晚出動",sub:"KIX → 谷町庭 星 → 黑門市場 → 道頓堀",
+ items:[
+  {type:"note",time:"10:15",text:"桃園出發（星宇 JX）",tags:["transport"]},
+  {type:"note",time:"14:00",text:"抵達關西空港 KIX"},
+  {type:"note",time:"14:00",text:"出關（入境審查 → 行李提領 → 海關）",sub:"Visit Japan Web 事先填好可加速，預估 45 分",tags:["transport"]},
+  {type:"place",arrive:"14:45",name:"關西空港 搭 Rapi:t 特急",tags:["transport"],
+   note:"南海電鐵 App 預購 デジタルきっぷ ¥1,300，全席指定，行李空間大",
+   stay:"38 分（車程）",depart:"15:23",
+   transport:{mode:"🚃 南海 Rapi:t",line:"難波站下車",min:"（已含）"}},
+  {type:"place",arrive:"15:23",name:"南海難波 轉地鐵中央線",tags:["transport"],
+   note:"難波站步行至地鐵站約 5 分，搭至谷町四丁目",
+   stay:"約 12 分（步行＋搭車）",depart:"15:35",
+   transport:{mode:"🚇 地鐵中央線",line:"谷町四丁目站",min:"（已含）"}},
+  {type:"place",arrive:"15:50",name:"谷町庭 星 飯店 Check-in",
+   note:"放行李、換裝整頓，輕裝出發",
+   stay:"約 40 分",depart:"16:30",
+   transport:{mode:"🚶 步行",line:"黑門市場",min:"10 分"}},
+  {type:"place",arrive:"16:40",name:"黑門市場",tags:["food"],
+   note:"海膽丼、河豚刺身、螃蟹腳，邊走邊吃。全長約 580m",
+   stay:"約 1 小時 20 分",depart:"18:00",
+   transport:{mode:"🚶 步行",line:"道頓堀",min:"12 分"}},
+  {type:"place",arrive:"18:10",name:"道頓堀・戎橋＋晚餐",tags:["food"],
+   note:"グリコ看板打卡、章魚燒、金龍拉麵。晚餐在此解決",
+   stay:"約 1 小時 30 分",depart:"19:40",
+   transport:{mode:"🚶 步行",line:"心齋橋筋",min:"3 分"}},
+  {type:"place",arrive:"19:45",name:"心齋橋筋 ＋ Don Quijote",tags:["shop"],
+   note:"藥妝初掃、零食採購。Don Quijote 難波店 24 小時，帶護照準備退稅",
+   stay:"約 1 小時 15 分",depart:"21:00",
+   transport:{mode:"🚇 地鐵",line:"谷町四丁目",min:"10 分"}},
+  {type:"note",time:"21:15",text:"返回谷町庭 星"},
+ ],
+ cl:["Visit Japan Web 出發前填好（入境＋海關申告）","南海電鐵 App 下載，預購 Rapi:t ¥1,300","ICOCA / Suica 確認有餘額","飯店訂房確認信截圖備妥","購物清單提前列好"],
+ tip:"抵達當天體力足，直衝道頓堀感受大阪第一夜。Don Quijote 難波店 24 小時。"
+},
+
+/* ══ DAY 2 ══ */
+{id:"d2",bc:"background:#E1F5EE;color:#085041",dc:"#1D9E75",
+ date:"10/10",lbl:"五",city:"大阪",title:"大阪歷史 × 南北購物制霸",sub:"大阪城 → 新世界 → 梅田 → 美國村",
+ items:[
+  {type:"place",arrive:"09:30",name:"早餐：附近喫茶店 or 咖啡廳",tags:["food"],
+   note:"モーニング套餐通常有吐司、沙拉、咖啡。大阪喫茶店文化豐富，飯店附近就有",
+   stay:"約 1 小時",depart:"10:30",
+   transport:{mode:"🚇 地鐵谷町線",line:"大阪城公園站",min:"10 分"}},
+  {type:"place",arrive:"10:40",name:"大阪城天守閣 ＋ 西之丸庭園",tags:["temple"],
+   note:"¥600。10 月楓葉轉色中。天守閣共 8 層，頂樓可俯瞰大阪全景",
+   stay:"約 1 小時 30 分",depart:"12:10",
+   transport:{mode:"🚇 地鐵谷町線",line:"四天王寺前夕陽站",min:"8 分"}},
+  {type:"place",arrive:"12:20",name:"四天王寺",tags:["temple"],
+   note:"大阪最古老寺院（593 年聖德太子所建），外苑免費，庭園 ¥300",
+   stay:"約 40 分",depart:"13:00",
+   transport:{mode:"🚶 步行",line:"新世界・串炸 Daruma",min:"15 分"}},
+  {type:"place",arrive:"13:15",name:"串炸 Daruma 本店（午餐）",tags:["food"],
+   note:"新世界名物。醬汁只能沾一次是鐵則！排隊 20–30 分，用餐約 30 分",
+   stay:"約 1 小時（含排隊）",depart:"14:15",
+   transport:{mode:"🚶 步行",line:"通天閣",min:"3 分"}},
+  {type:"place",arrive:"14:20",name:"通天閣",tags:["temple"],
+   note:"¥1,000。大阪昭和地標，5 樓黃金比利肯神像可摸腳祈願，頂樓展望台",
+   stay:"約 45 分",depart:"15:05",
+   transport:{mode:"🚇 地鐵御堂筋線",line:"梅田站",min:"20 分"}},
+  {type:"place",arrive:"15:25",name:"梅田・阪急百貨 ＋ Grand Front Osaka",tags:["shop"],
+   note:"阪急地下美食街、Grand Front 美妝日系品牌、梅田地下街超大好逛",
+   stay:"約 1 小時 35 分",depart:"17:00",
+   transport:{mode:"🚇 地鐵御堂筋線",line:"心齋橋站",min:"8 分"}},
+  {type:"place",arrive:"17:10",name:"美國村・堀江雜貨街",tags:["shop"],
+   note:"古著、設計師小物、網美咖啡廳。三角公園一帶是大阪年輕人文化中心",
+   stay:"約 1 小時 20 分",depart:"18:30",
+   transport:{mode:"🚶 步行",line:"心齋橋附近餐廳",min:"5 分"}},
+  {type:"place",arrive:"18:35",name:"晚餐：蟹道樂 or 個室燒肉",tags:["food"],
+   note:"心齋橋附近。蟹道樂建議提前訂位；燒肉推薦和牛個室形式",
+   stay:"約 1 小時 30 分",depart:"20:05",
+   transport:{mode:"🚇 地鐵",line:"谷町四丁目",min:"10 分"}},
+  {type:"note",time:"20:20",text:"返回谷町庭 星"},
+ ],
+ cl:["大阪城天守閣 ¥600","串炸 Daruma：13:00 前到排隊","通天閣 ¥1,000","今天步行量最大，務必穿球鞋"],
+ tip:"新世界→通天閣→梅田走御堂筋線，南北一條直線，完全不繞路。"
+},
+
+/* ══ DAY 3 ══ */
+{id:"d3",bc:"background:#FAECE7;color:#712B13",dc:"#D85A30",
+ date:"10/11",lbl:"六",city:"奈良（當日來回）",title:"奈良一日 — 鹿・大佛・古都",sub:"大阪出發 → 東大寺 → 春日大社 → 奈良町",
+ items:[
+  {type:"place",arrive:"09:30",name:"早餐：飯店附近咖啡廳",tags:["food"],
+   note:"奈良當日來回，今天需要體力，早餐吃飽一點",
+   stay:"約 1 小時",depart:"10:30",
+   transport:{mode:"🚃 近鐵急行",line:"近鐵難波站出發",min:"5 分走到月台"}},
+  {type:"place",arrive:"10:35",name:"近鐵難波站 出發",tags:["transport"],
+   note:"近鐵奈良線急行，¥680。月台在地下，提前確認月台號",
+   stay:"40 分（車程）",depart:"11:15",
+   transport:{mode:"🚃 近鐵急行",line:"近鐵奈良站",min:"（已含）"}},
+  {type:"place",arrive:"11:25",name:"奈良公園・鹿群互動",tags:["nature"],
+   note:"餵鹿仙貝 ¥200。公園免費，鹿隨處走動，近鐵奈良站步行約 10 分",
+   stay:"約 30 分",depart:"11:55",
+   transport:{mode:"🚶 步行",line:"東大寺南大門",min:"5 分"}},
+  {type:"place",arrive:"12:00",name:"東大寺 南大門 ＋ 大佛殿",tags:["temple"],
+   note:"¥600。世界最大木造建築，大佛高 15m。柱孔與大佛鼻孔同大，鑽過去可祈願",
+   stay:"約 1 小時 20 分",depart:"13:20",
+   transport:{mode:"🚶 步行",line:"二月堂",min:"10 分"}},
+  {type:"place",arrive:"13:30",name:"二月堂 ＋ 三月堂",tags:["temple"],
+   note:"免費。二月堂俯瞰奈良盆地視野絕佳，三月堂保存最古老佛像",
+   stay:"約 25 分",depart:"13:55",
+   transport:{mode:"🚶 步行",line:"奈良町",min:"15 分"}},
+  {type:"place",arrive:"14:10",name:"午餐：奈良町 柿葉壽司 or 釜飯",tags:["food"],
+   note:"柿葉壽司用柿葉包裹，口味清雅。釜飯需等 20–25 分，請先點再逛",
+   stay:"約 55 分",depart:"15:05",
+   transport:{mode:"🚶 步行",line:"春日大社",min:"15 分"}},
+  {type:"place",arrive:"15:20",name:"春日大社 ＋ 原始林参道",tags:["temple"],
+   note:"¥500 本殿。全國約 3,000 座春日神社的總本社，参道兩旁掛 3,000 盞燈籠",
+   stay:"約 1 小時",depart:"16:20",
+   transport:{mode:"🚶 步行",line:"若草山",min:"10 分"}},
+  {type:"place",arrive:"16:30",name:"若草山",tags:["nature"],
+   note:"10 月免費開放。山頂可 360 度俯瞰奈良盆地全景",
+   stay:"約 30 分",depart:"17:00",
+   transport:{mode:"🚶 步行",line:"奈良町咖啡廳",min:"15 分"}},
+  {type:"place",arrive:"17:15",name:"奈良町巡遊 ＋ 町家咖啡廳",tags:["food","shop"],
+   note:"江戶時代格子窗老屋群，百年老屋改建的咖啡廳，抹茶甜點必吃",
+   stay:"約 40 分",depart:"17:55",
+   transport:{mode:"🚶 步行",line:"興福寺",min:"5 分"}},
+  {type:"place",arrive:"18:00",name:"興福寺五重塔（黃昏）",tags:["temple"],
+   note:"外觀免費。高 50m，黃昏橙光打在朱紅塔身上很美，是奈良代表風景",
+   stay:"約 20 分",depart:"18:20",
+   transport:{mode:"🚶 步行",line:"近鐵奈良站",min:"5 分"}},
+  {type:"place",arrive:"18:25",name:"近鐵奈良站 返回大阪",tags:["transport"],
+   note:"近鐵急行 ¥680，約 40 分返難波",
+   stay:"40 分（車程）",depart:"19:05",
+   transport:{mode:"🚶 步行",line:"道頓堀附近",min:"10 分"}},
+  {type:"place",arrive:"19:20",name:"晚餐：大阪道頓堀附近",tags:["food"],
+   note:"推薦：鶴橋燒肉、難波拉麵、或飯店附近居酒屋",
+   stay:"約 1 小時",depart:"20:20",
+   transport:{mode:"🚇 地鐵",line:"谷町四丁目",min:"10 分"}},
+  {type:"note",time:"20:35",text:"返回谷町庭 星"},
+ ],
+ cl:["東大寺大佛殿 ¥600","春日大社本殿 ¥500（外苑免費）","鹿仙貝多買幾包","步行量大，務必穿球鞋","若草山確認當天開放"],
+ tip:"奈良景點集中，今天步行量很大。午餐在奈良町點好再去附近逛，回來剛好能吃。"
+},
+
+/* ══ DAY 4 ══ */
+{id:"d4",bc:"background:#EEEDFE;color:#3C3489",dc:"#534AB7",
+ date:"10/12",lbl:"日",city:"京都 Day 1（當日來回）",title:"京都 Day 1 — 東山 ＋ 伏見稻荷",sub:"清水寺 → 高台寺 → 祇園 → 錦市場 → 伏見稻荷",
+ items:[
+  {type:"place",arrive:"09:30",name:"早餐：飯店附近咖啡廳",tags:["food"],
+   note:"今天要當日來回京都，吃飽再出發",
+   stay:"約 1 小時",depart:"10:30",
+   transport:{mode:"🚃 JR 新快速",line:"大阪站出發",min:"5 分走到大阪站"}},
+  {type:"place",arrive:"10:35",name:"JR 大阪站出發",tags:["transport"],
+   note:"搭新快速往京都，¥580。月台 1–4 號「京都・草津方向」",
+   stay:"15 分（車程）",depart:"10:50",
+   transport:{mode:"🚃 JR 新快速",line:"京都站",min:"（已含）"}},
+  {type:"place",arrive:"10:55",name:"京都站 轉地鐵往清水寺",tags:["transport"],
+   note:"地鐵烏丸線「国際会館」方向，四条站下車，步行往清水寺約 20 分",
+   stay:"30 分（換車＋步行）",depart:"11:25",
+   transport:{mode:"🚇 地鐵＋步行",line:"清水寺",min:"（已含）"}},
+  {type:"place",arrive:"11:25",name:"清水寺 ＋ 音羽之瀧 ＋ 舞台",tags:["temple"],
+   note:"¥400。清水舞台懸空而建，音羽之瀧三道水流各代表學業、戀愛、長壽",
+   stay:"約 1 小時 30 分",depart:"12:55",
+   transport:{mode:"🚶 步行（下坡）",line:"三年坂・二年坂",min:"3 分"}},
+  {type:"place",arrive:"13:00",name:"三年坂・二年坂",tags:["shop","food"],
+   note:"清水燒陶器、抹茶霜淇淋、漆器、京都伴手禮。石板坡道兩旁全是特色小店",
+   stay:"約 45 分",depart:"13:45",
+   transport:{mode:"🚶 步行",line:"産寧坂附近餐廳",min:"1 分"}},
+  {type:"place",arrive:"13:45",name:"午餐：京料理 or 湯豆腐",tags:["food"],
+   note:"産寧坂附近多家京都料理。湯豆腐清淡養胃，是京都名物",
+   stay:"約 1 小時",depart:"14:45",
+   transport:{mode:"🚶 步行",line:"高台寺",min:"5 分"}},
+  {type:"place",arrive:"14:50",name:"高台寺",tags:["temple"],
+   note:"¥600。豐臣秀吉正室「寧寧」所建，竹林小徑在園內，楓葉季特別美",
+   stay:"約 45 分",depart:"15:35",
+   transport:{mode:"🚶 步行",line:"八坂神社",min:"8 分"}},
+  {type:"place",arrive:"15:45",name:"八坂神社（免費）＋ 知恩院三門",tags:["temple"],
+   note:"八坂神社是祇園祭核心。知恩院三門是日本最大木造門（高 24m），免費外觀",
+   stay:"約 40 分",depart:"16:25",
+   transport:{mode:"🚶 步行",line:"祇園白川",min:"5 分"}},
+  {type:"place",arrive:"16:30",name:"祇園白川・花見小路",tags:["temple"],
+   note:"柳樹倒映川面，黃昏前光線最美。花見小路注意禁止拍攝藝妓",
+   stay:"約 35 分",depart:"17:05",
+   transport:{mode:"🚶 步行",line:"錦市場",min:"15 分"}},
+  {type:"place",arrive:"17:20",name:"錦市場採買",tags:["food","shop"],
+   note:"全長 390m 的京都廚房。醃漬物、玉子燒、抹茶生八橋。部分店家 17:30 收攤，快速掃",
+   stay:"約 40 分",depart:"18:00",
+   transport:{mode:"🚇 地鐵＋JR",line:"稻荷站",min:"25 分"}},
+  {type:"place",arrive:"18:25",name:"伏見稻荷大社（傍晚）",tags:["temple"],
+   note:"免費。千本鳥居在夕陽下染成深橘色，傍晚人潮比白天少很多。輕走至四辻折返即可",
+   stay:"約 1 小時",depart:"19:25",
+   transport:{mode:"🚃 JR 奈良線",line:"京都站",min:"5 分"}},
+  {type:"place",arrive:"19:35",name:"晚餐：京都站附近",tags:["food"],
+   note:"推薦：京都拉麵小路（京都站 10F）、伊勢丹地下美食街",
+   stay:"約 1 小時",depart:"20:35",
+   transport:{mode:"🚃 JR 新快速",line:"大阪站",min:"15 分"}},
+  {type:"note",time:"21:05",text:"返回谷町庭 星"},
+ ],
+ cl:["清水寺 ¥400","高台寺 ¥600","京都地下鐵・巴士一日券 ¥1,100","錦市場 17:20 前到，快速掃完再去伏見","花見小路：禁止拍攝藝妓"],
+ tip:"伏見稻荷排傍晚，夕陽穿透朱紅鳥居很美，遊客少很多。今天動線從東山一路往南，非常順。"
+},
+
+/* ══ DAY 5 ══ */
+{id:"d5",bc:"background:#E1F5EE;color:#085041",dc:"#1D9E75",
+ date:"10/13",lbl:"一",city:"京都 Day 2（當日來回）",title:"京都 Day 2 — 金閣寺 → 嵐山 → 二条城",sub:"大阪出發 → 金閣寺 → 龍安寺 → 嵐山 → 二条城",
+ items:[
+  {type:"place",arrive:"09:30",name:"早餐：飯店附近咖啡廳",tags:["food"],
+   note:"今天景點多，吃飽再出發",
+   stay:"約 1 小時",depart:"10:30",
+   transport:{mode:"🚃 JR 新快速",line:"大阪站出發",min:"5 分走到大阪站"}},
+  {type:"place",arrive:"10:35",name:"JR 大阪站出發",tags:["transport"],
+   note:"搭新快速往京都，¥580，15 分",
+   stay:"15 分（車程）",depart:"10:50",
+   transport:{mode:"🚃 JR 新快速",line:"京都站",min:"（已含）"}},
+  {type:"place",arrive:"10:55",name:"京都站 轉市巴士往金閣寺",tags:["transport"],
+   note:"搭市巴士 101 或 102 號，「金閣寺道」站下車，約 40 分",
+   stay:"40 分（車程）",depart:"11:35",
+   transport:{mode:"🚌 市巴士 101/102",line:"金閣寺道站",min:"（已含）"}},
+  {type:"place",arrive:"11:35",name:"金閣寺（鹿苑寺）",tags:["temple"],
+   note:"¥500。金箔外牆倒映湖面，週一遊客明顯少。開放時間 09:00–17:00",
+   stay:"約 45 分",depart:"12:20",
+   transport:{mode:"🚶 步行",line:"龍安寺",min:"12 分"}},
+  {type:"place",arrive:"12:35",name:"龍安寺・枯山水石庭",tags:["temple"],
+   note:"¥600。15 顆石頭無論從哪個角度都看不完全，侘寂美學代表作",
+   stay:"約 40 分",depart:"13:15",
+   transport:{mode:"🚌 市巴士 26 號",line:"嵐山天龍寺前站",min:"30 分"}},
+  {type:"place",arrive:"13:45",name:"午餐：嵐山 蕎麥麵 or 湯葉料理",tags:["food"],
+   note:"嵐山商店街入口附近多家餐廳。蕎麥麵、湯葉（豆腐皮）是當地名物",
+   stay:"約 1 小時",depart:"14:45",
+   transport:{mode:"🚶 步行",line:"竹林の小徑",min:"3 分"}},
+  {type:"place",arrive:"14:50",name:"嵐山竹林の小徑",tags:["nature"],
+   note:"免費。全長約 400m，兩側高聳竹林非常壯觀。週一下午人潮相對少",
+   stay:"約 20 分",depart:"15:10",
+   transport:{mode:"🚶 步行",line:"天龍寺",min:"3 分"}},
+  {type:"place",arrive:"15:15",name:"天龍寺庭園（世界文化遺產）",tags:["temple"],
+   note:"¥500。借景嵐山與龜山的迴遊式庭園，曹源池倒映山景極美",
+   stay:"約 45 分",depart:"16:00",
+   transport:{mode:"🚶 步行",line:"渡月橋",min:"8 分"}},
+  {type:"place",arrive:"16:10",name:"渡月橋 ＋ 嵐山商店街",tags:["nature","shop"],
+   note:"桂川河岸休息拍照。商店街有竹炭商品、嵐山限定零食",
+   stay:"約 40 分",depart:"16:50",
+   transport:{mode:"🚃 JR 嵯峨野線→換地鐵",line:"二条城前站",min:"25 分"}},
+  {type:"place",arrive:"17:15",name:"二条城（元離宮二条城）",tags:["temple"],
+   note:"¥1,300。德川家康所建，鶯張地板踩上去會發出鳥叫聲，二之丸御殿精緻壯麗。閉館 17:00，⚠ 入場至 16:00",
+   stay:"—（接近閉館，視情況調整）",depart:"—",
+   transport:{mode:"",line:"",min:""}},
+  {type:"note",time:"17:15",text:"⚠ 二条城 16:00 截止入場・17:00 閉館",sub:"若趕不及，可改至四条・烏丸逛街補購物"},
+  {type:"place",arrive:"18:00",name:"晚餐：木屋町・先斗町",tags:["food"],
+   note:"鴨川旁老街居酒屋，氣氛絕佳。先斗町是狹長小巷，燈籠亮起很有京都味",
+   stay:"約 1 小時 20 分",depart:"19:20",
+   transport:{mode:"🚃 JR 新快速",line:"大阪站",min:"15 分"}},
+  {type:"note",time:"19:50",text:"返回谷町庭 星"},
+ ],
+ cl:["金閣寺 ¥500","龍安寺 ¥600","天龍寺庭園 ¥500","二条城 ¥1,300（⚠ 16:00 截止入場）","市巴士 26 號：龍安寺→嵐山方向確認"],
+ tip:"⚠ 二条城 16:00 截止入場，出發若稍晚請加快嵐山步調，或改到四条逛街。金閣寺→龍安寺→嵐山→二条城動線從西繞回市中心，完全順路。"
+},
+
+/* ══ DAY 6 ══ */
+{id:"d6",bc:"background:#FAEEDA;color:#633806",dc:"#BA7517",
+ date:"10/14",lbl:"二",city:"大阪",title:"大阪最終衝刺 — 採買 ＋ 最後晚餐",sub:"補買藥妝 → 梅田 → 道頓堀豪華最後晚餐",
+ items:[
+  {type:"place",arrive:"09:30",name:"早餐：附近咖啡廳（今天最悠閒）",tags:["food"],
+   note:"今天行程最輕鬆，慢慢吃不用趕",
+   stay:"約 1 小時",depart:"10:30",
+   transport:{mode:"🚇 地鐵",line:"心齋橋站",min:"10 分"}},
+  {type:"place",arrive:"10:40",name:"心齋橋・松本清 ＋ 藥妝掃貨",tags:["shop"],
+   note:"松本清、コスモス、BIC CAMERA。補買之前沒買到的，帶購物清單對照",
+   stay:"約 1 小時 20 分",depart:"12:00",
+   transport:{mode:"🚇 地鐵御堂筋線",line:"梅田站",min:"8 分"}},
+  {type:"place",arrive:"12:10",name:"梅田 LOFT ＋ 蔦屋書店 ＋ 阪急地下美食",tags:["shop","food"],
+   note:"LOFT 文具雜貨、蔦屋書店選書、阪急地下美食街買高級伴手禮甜點",
+   stay:"約 1 小時",depart:"13:10",
+   transport:{mode:"🚶 步行",line:"梅田餐廳",min:"5 分"}},
+  {type:"place",arrive:"13:15",name:"午餐：梅田人氣拉麵 or 丼飯",tags:["food"],
+   note:"梅田地下街多家人氣店，Grand Front 旁也有多種選擇",
+   stay:"約 1 小時",depart:"14:15",
+   transport:{mode:"🚇 地鐵",line:"難波站",min:"8 分"}},
+  {type:"place",arrive:"14:25",name:"難波 Don Quijote 終極大採買",tags:["shop"],
+   note:"帶護照辦退稅（¥5,000 以上合計申請）。買完請店家幫忙打包",
+   stay:"約 1 小時 45 分",depart:"16:10",
+   transport:{mode:"🚇 地鐵",line:"谷町四丁目",min:"10 分"}},
+  {type:"place",arrive:"16:25",name:"飯店整理行李・退稅商品分裝",
+   note:"確認行李重量，超重的先宅配回台。整理收據準備明天退稅",
+   stay:"約 1 小時 15 分",depart:"17:40",
+   transport:{mode:"🚶 步行",line:"黑門市場",min:"10 分"}},
+  {type:"place",arrive:"17:50",name:"（選）黑門市場下午場",tags:["food"],
+   note:"買新鮮水果或最後一次海鮮，部分攤位下午有特價",
+   stay:"約 30 分",depart:"18:20",
+   transport:{mode:"🚶 步行",line:"道頓堀",min:"12 分"}},
+  {type:"place",arrive:"19:00",name:"最後晚餐！道頓堀豪華版",tags:["food"],
+   note:"かに道楽（建議提前訂位）、黑毛和牛個室燒肉、或大阪頂級壽司",
+   stay:"約 1 小時 30 分",depart:"20:30",
+   transport:{mode:"🚶 步行",line:"心齋橋",min:"3 分"}},
+  {type:"place",arrive:"20:30",name:"心齋橋・道頓堀最後夜遊",tags:["shop"],
+   note:"最後補漏採購、打卡留念",
+   stay:"約 1 小時",depart:"21:30",
+   transport:{mode:"🚇 地鐵",line:"谷町四丁目",min:"10 分"}},
+  {type:"note",time:"21:45",text:"返回飯店，整理行李（明早 08:00 最晚出門）"},
+ ],
+ cl:["伴手禮採買清單最終核對","行李重量確認（超重先宅配回台）","Don Quijote 帶護照辦退稅","ICOCA 餘額確認（明天機場退款）","⚠ 行李今晚整理完成，明早不慌亂"],
+ tip:"今天刻意排輕鬆，好好享受最後的大阪夜晚。行李務必今晚整理完畢！"
+},
+
+/* ══ DAY 7 ══ */
+{id:"d7",bc:"background:#F1EFE8;color:#444441",dc:"#888780",
+ date:"10/15",lbl:"四",city:"神戶 UKB → 台灣",title:"回程 — 神戶 UKB → 桃園",sub:"谷町 → 梅田 → 三宮 → 神戶空港（JX835 11:00）",
+ items:[
+  {type:"note",time:"07:00",text:"起床、吃早餐、最後確認行李"},
+  {type:"place",arrive:"08:00",name:"⚠ 飯店 Check-out",
+   note:"最晚出門時間。行李前一晚已整理好，出門前掃一遍房間",
+   stay:"15 分",depart:"08:15",
+   transport:{mode:"🚇 地鐵→JR",line:"梅田→三宮",min:"30 分"}},
+  {type:"place",arrive:"08:45",name:"三宮站 轉 Port Liner",tags:["transport"],
+   note:"神戶新交通 Port Liner，¥340。往「神戶空港」方向，全程 18 分",
+   stay:"18 分（車程）",depart:"09:03",
+   transport:{mode:"🚃 Port Liner",line:"神戶空港站",min:"（已含）"}},
+  {type:"place",arrive:"09:05",name:"神戶空港 第 2 航廈（國際線）",
+   note:"星宇 JX835 使用第 2 航廈，小型機場動線清楚",
+   stay:"—",depart:"—",transport:{mode:"",line:"",min:""}},
+  {type:"note",time:"09:10",text:"辦理 check-in ＋ 行李托運"},
+  {type:"note",time:"09:45",text:"出境安全檢查"},
+  {type:"note",time:"10:00",text:"TAX REFUND 退稅辦理（護照＋收據，昨天已辦可略過）"},
+  {type:"note",time:"10:15",text:"免稅區最後補貨",tags:["shop"]},
+  {type:"note",time:"11:00",text:"✈ JX835 神戶起飛"},
+  {type:"note",time:"13:00",text:"抵達台北桃園，旅程圓滿結束！"},
+ ],
+ cl:["ICOCA 在神戶空港或三宮退款（需護照）","退稅收據整理好，出境前辦","行李重量再次確認","攜帶藥品、食品確認可入境台灣","桃園落地後交通計畫確認"],
+ warn:"⚠ JX835 神戶 11:00 起飛！從大阪梅田出發需 50 分鐘，08:00 最晚必須離開飯店。前一晚把行李整理好！",
+ tip:"Port Liner 三宮→神戶空港只要 18 分鐘。若時間充裕可在三宮買個麵包帶上飛機。"
+}
+];
+
+var DM={};for(var i=0;i<days.length;i++)DM[days[i].id]=days[i];
+
+function renderItems(items,dc){
+  var h="";
+  for(var j=0;j<items.length;j++){
+    var it=items[j],last=(j===items.length-1);
+    if(it.type==="note"){
+      h+='<div class="tl-item">'+
+        '<div class="tl-left"><span class="tl-time">'+it.time+'</span>'+(last?'':'<div class="tl-vline"></div>')+'</div>'+
+        '<div class="tl-dot-col"><div class="tl-dot" style="background:'+dc+';opacity:.4"></div></div>'+
+        '<div class="tl-content" style="padding:.05rem 0 .65rem 8px">'+
+          '<div style="font-size:13px;color:#555;line-height:1.5">'+it.text+mkTags(it.tags||[])+'</div>'+
+          (it.sub?'<div style="font-size:11px;color:#aaa;margin-top:2px">'+it.sub+'</div>':'')+
+        '</div>'+
+      '</div>';
+    } else {
+      var hasT=it.transport&&it.transport.mode&&!last;
+      h+='<div class="tl-item">'+
+        '<div class="tl-left"><span class="tl-time">'+it.arrive+'</span>'+(last?'':'<div class="tl-vline"></div>')+'</div>'+
+        '<div class="tl-dot-col"><div class="tl-dot" style="background:'+dc+'"></div></div>'+
+        '<div class="tl-content" style="padding:.05rem 0 .8rem 8px">'+
+          '<div class="place-block">'+
+            '<div class="place-name">'+it.name+'</div>'+
+            (it.tags&&it.tags.length?'<div class="place-tags">'+mkTags(it.tags)+'</div>':'')+
+            (it.note?'<div class="place-note">'+it.note+'</div>':'')+
+            (it.stay?'<div class="place-meta">'+
+              '<div class="meta-item"><span>⏱</span><span>停留 '+it.stay+'</span></div>'+
+              (it.depart&&it.depart!=="—"?'<div class="meta-item"><span>🚪</span><span>約 '+it.depart+' 離開</span></div>':'')+
+            '</div>':'')+
+            (hasT?'<div class="meta-depart"><strong>→ 前往：</strong>'+it.transport.mode+(it.transport.line?' 「'+it.transport.line+'」':'')+(it.transport.min&&it.transport.min!=="（已含）"?' · 約 '+it.transport.min:'')+'</div>':'')+
+          '</div>'+
+        '</div>'+
+      '</div>';
+    }
+  }
+  return h;
+}
+
+function renderDay(d){
+  var clH="";
+  for(var k=0;k<d.cl.length;k++){
+    clH+='<label class="ci" id="ci'+d.id+'-'+k+'"><input type="checkbox" onchange="ck(\''+d.id+'\','+k+')"><span>'+d.cl[k]+'</span></label>';
+  }
+  return'<div class="card">'+
+    '<div class="hdr" onclick="toggle(\''+d.id+'\')">'+
+      '<div class="bdg" style="'+d.bc+'">'+d.date+'<br>'+d.lbl+'</div>'+
+      '<div class="dt"><h3>'+d.title+'</h3><p>'+d.city+'</p></div>'+
+      '<span class="chv" id="c'+d.id+'">▼</span>'+
+    '</div>'+
+    '<div class="body" id="b'+d.id+'">'+
+      '<div class="sec"><div class="lbl">行程時間軸</div><div class="tl">'+renderItems(d.items,d.dc)+'</div></div>'+
+      '<div class="sep"></div>'+
+      '<div class="sec">'+
+        '<div class="cl-header lbl"><span>Check list</span><span class="cl-count" id="pc'+d.id+'">0/'+d.cl.length+'</span></div>'+
+        '<div class="pbar"><div class="pfill" id="pf'+d.id+'" style="background:'+d.dc+';width:0%"></div></div>'+
+        '<div class="cl">'+clH+'</div>'+
+      '</div>'+
+      (d.warn?'<div class="warn">'+d.warn+'</div>':'')+
+      '<div class="tip"><strong>💡 </strong>'+d.tip+'</div>'+
+    '</div>'+
+  '</div>';
+}
+
+var h="";for(var i=0;i<days.length;i++)h+=renderDay(days[i]);
+document.getElementById("root").innerHTML=h;
+document.getElementById("bd1").classList.add("open");
+document.getElementById("cd1").classList.add("open");
+</script>
+</body>
+</html>
